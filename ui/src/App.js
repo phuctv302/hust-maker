@@ -1,4 +1,5 @@
 import React from 'react';
+import { useMeasure } from 'react-use';
 
 import { Layout, Button, Space } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
@@ -13,10 +14,17 @@ import ImageIcon from '@mui/icons-material/Image';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 
 import SideBar from './components/layouts/SideBar';
+import Test from './components/canvas/Test';
+import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
 
-const { Sider, Header, Content } = Layout;
+const { Header, Content } = Layout;
 
 export default function App() {
+	const [ref, { width, height }] = useMeasure();
+	console.log('current size:');
+	console.log(width);
+	console.log(height);
+
 	return (
 		<Layout>
 			<Header
@@ -29,6 +37,7 @@ export default function App() {
 				<SideBar className='site-sidebar' />
 
 				<Content
+					ref={ref}
 					className='site-content'
 					style={{
 						padding: '24px 16px 0',
@@ -36,7 +45,7 @@ export default function App() {
 						height: 'calc(100vh - 50px)',
 					}}
 				>
-					Content
+					<Test width={width} height={height} />
 				</Content>
 			</Layout>
 		</Layout>
