@@ -1,29 +1,27 @@
 import React from 'react';
+import useImage from 'use-image';
 import { useMeasure } from 'react-use';
 
 import { Layout, Button, Space } from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
-
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import InterestsIcon from '@mui/icons-material/Interests';
-import ImageIcon from '@mui/icons-material/Image';
-import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 
 import SideBar from './components/layouts/SideBar';
-import Test from './components/canvas/Test';
-import { Stage, Layer, Rect, Text, Circle, Line } from 'react-konva';
+import Canvas from './components/canvas/Canvas';
+import { Stage, Layer, Image } from 'react-konva';
+import HmImage from './components/canvas/HmImage';
+
+import './App.css';
 
 const { Header, Content } = Layout;
 
 export default function App() {
 	const [ref, { width, height }] = useMeasure();
-	console.log('current size:');
-	console.log(width);
-	console.log(height);
+	const [image] = useImage('/products/mug.png');
+
+	const initProduct = {
+		width: '100%',
+		image: '/products/mug.png'
+	}
+	initProduct.height = initProduct.width;
 
 	return (
 		<Layout>
@@ -43,9 +41,24 @@ export default function App() {
 						padding: '24px 16px 0',
 						overflow: 'initial',
 						height: 'calc(100vh - 50px)',
+						overflow: 'hidden',
+						position: 'relative'
 					}}
 				>
-					<Test width={width} height={height} />
+					<div className='bg-canvas' style={{  
+						backgroundImage: "url(" + initProduct.image + ")",
+						backgroundPosition: 'center',
+						backgroundSize: 'cover',
+						backgroundRepeat: 'no-repeat',
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: initProduct.width,
+						height: initProduct.height
+					}}>
+
+					</div>
+					<Canvas width={width} height={height} />
 				</Content>
 			</Layout>
 		</Layout>
