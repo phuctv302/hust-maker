@@ -1,31 +1,21 @@
 import React from 'react';
 
-import { Stage, Layer, Text } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 
 import Rectangle from './Rectangle';
 import Image from './HmImage';
+import Text from './HmText';
 
-export default function Canvas({width, height}) {
-	let initRect = {
-		x: 100,
-		y: 10,
-		width: 100,
-		height: 100,
-		fill: 'red',
-		id: 'rect1',
-		rotation: 90,
-	};
-	let initImg = {
-		x: 200,
-		y: 100,
-		width: 100,
-		height: 100,
-		id: 'image1',
-		rotation: 111,
-	};
+import elements from '../../fake.data/elements';
+
+export default function Canvas({ width, height }) {
+	let initRect = elements[0];
+	let initImg = elements[1];
+	let initText = elements[2];
 
 	const [rect, setRect] = React.useState(initRect);
 	const [image, setImage] = React.useState(initImg);
+	const [text, setText] = React.useState(initText);
 	const [selectedId, selectShape] = React.useState(null);
 
 	// deselect when clicked on empty area
@@ -45,7 +35,16 @@ export default function Canvas({width, height}) {
 			height={height}
 		>
 			<Layer>
-				<Text text='Some text on canvas' fontSize={15} />
+				<Text
+					textProps={text}
+					isSelected={text.id === selectedId}
+					onSelect={() => {
+						selectShape(text.id);
+					}}
+					onChange={(newAttrs) => {
+						setText(newAttrs);
+					}}
+				/>
 
 				<Rectangle
 					key={0}

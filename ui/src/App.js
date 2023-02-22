@@ -9,19 +9,16 @@ import Canvas from './components/canvas/Canvas';
 import { Stage, Layer, Image } from 'react-konva';
 import HmImage from './components/canvas/HmImage';
 
+import products from './fake.data/products';
+
 import './App.css';
 
 const { Header, Content } = Layout;
 
 export default function App() {
 	const [ref, { width, height }] = useMeasure();
-	const [image] = useImage('/products/mug.png');
 
-	const initProduct = {
-		width: '100%',
-		image: '/products/mug.png'
-	}
-	initProduct.height = initProduct.width;
+	const initProduct = products[0]
 
 	return (
 		<Layout>
