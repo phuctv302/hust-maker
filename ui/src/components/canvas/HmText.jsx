@@ -2,7 +2,13 @@ import React from 'react';
 
 import { Text, Transformer } from 'react-konva';
 
-export default function HmText({ textProps, isSelected, onSelect, onChange }) {
+export default function HmText({
+	stage,
+	textProps,
+	isSelected,
+	onSelect,
+	onChange,
+}) {
 	const textRef = React.useRef();
 	const trRef = React.useRef();
 
@@ -13,6 +19,57 @@ export default function HmText({ textProps, isSelected, onSelect, onChange }) {
 			trRef.current.getLayer().batchDraw();
 		}
 	}, [isSelected]);
+
+	const onEdit = () => {
+		const textNode = textRef.current;
+		const tr = trRef.current;
+
+		textNode.hide();
+		tr.hide();
+
+		// textarea over canvas with absolute position
+		const textPosition = textNode.absolutePosition();
+
+		// position of textarea
+		const stageBox = stage.container().getBoundingClientRect();
+		console.log(stageBox.left);
+		console.log(stageBox.right);
+		const areaPosition = {
+			x: textPosition.x,
+			y: textPosition.y,
+		};
+
+		// create textarea
+		const textarea = document.createElement('textarea');
+		document.querySelector('.site-stage').appendChild(textarea);
+
+		// apply style to textarea
+		textarea.value = textNode.text();
+		textarea.style.position = 'absolute';
+		textarea.style.top = areaPosition.y + 'px';
+		textarea.style.left = areaPosition.x + 'px';
+		textarea.style.width = textNode.width();
+
+		textarea.focus();
+
+		// update value for Text on canvas
+		textarea.addEventListener('keydown', function (e) {
+			// hide on enter
+			if (e.keyCode === 13) {
+				textNode.text(textarea.value);
+				document.querySelector('.site-stage').removeChild(textarea);
+				textNode.show();
+				tr.show();
+			}
+		});
+
+		textarea.addEventListener('blur', (event) => {
+			textNode.text(textarea.value);
+			document.querySelector('.site-stage').removeChild(textarea);
+			textNode.show();
+			tr.show();
+		});
+	};
 
 	return (
 		<React.Fragment>
@@ -54,6 +111,8 @@ export default function HmText({ textProps, isSelected, onSelect, onChange }) {
 						height: Math.max(node.height() * scaleY),
 					});
 				}}
+				onDblClick={onEdit}
+				onDblTap={onEdit}
 			/>
 
 			{isSelected && (

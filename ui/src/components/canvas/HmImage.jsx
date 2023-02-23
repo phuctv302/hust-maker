@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Image, Transformer } from 'react-konva';
 
-const HmImage = ({ imageProps, src, isSelected, onSelect, onChange }) => {
+const HmImage = ({ imageProps, isSelected, onSelect, onChange }) => {
 	const imageRef = React.useRef();
 	const trRef = React.useRef();
 
@@ -15,7 +15,8 @@ const HmImage = ({ imageProps, src, isSelected, onSelect, onChange }) => {
 	}, [isSelected]);
 
 	let image = new window.Image();
-	image.src = src;
+	image.crossOrigin = 'Anonymous';
+	image.src = imageProps.src;
 
 	return (
 		<React.Fragment>

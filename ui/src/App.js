@@ -6,10 +6,9 @@ import { Layout, Button, Space } from 'antd';
 
 import SideBar from './components/layouts/SideBar';
 import Canvas from './components/canvas/Canvas';
-import { Stage, Layer, Image } from 'react-konva';
-import HmImage from './components/canvas/HmImage';
 
 import products from './fake.data/products';
+
 
 import './App.css';
 
@@ -17,15 +16,21 @@ const { Header, Content } = Layout;
 
 export default function App() {
 	const [ref, { width, height }] = useMeasure();
+	const canvasRef = React.useRef();
 
 	const initProduct = products[0]
+
+	const onSave = () => {
+		const data = canvasRef?.current?.toDataURL();
+		console.log(data); // link of canvas image
+	}
 
 	return (
 		<Layout>
 			<Header
 				style={{ padding: 0, minHeight: '50px', maxHeight: '50px' }}
 			>
-				Header
+				<button onClick={onSave}>Save</button>
 			</Header>
 
 			<Layout className='site-layout' style={{ marginLeft: 450 }}>
@@ -42,20 +47,7 @@ export default function App() {
 						position: 'relative'
 					}}
 				>
-					<div className='bg-canvas' style={{  
-						backgroundImage: "url(" + initProduct.image + ")",
-						backgroundPosition: 'center',
-						backgroundSize: 'cover',
-						backgroundRepeat: 'no-repeat',
-						position: 'absolute',
-						top: 0,
-						left: 0,
-						width: initProduct.width,
-						height: initProduct.height
-					}}>
-
-					</div>
-					<Canvas width={width} height={height} />
+					<Canvas ref={canvasRef} width={width} height={height} />
 				</Content>
 			</Layout>
 		</Layout>

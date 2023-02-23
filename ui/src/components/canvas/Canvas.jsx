@@ -6,12 +6,22 @@ import Rectangle from './Rectangle';
 import Image from './HmImage';
 import Text from './HmText';
 
+import './Canvas.css';
+
 import elements from '../../fake.data/elements';
 
-export default function Canvas({ width, height }) {
+const Canvas = React.forwardRef(({ width, height }, ref) => {
 	let initRect = elements[0];
 	let initImg = elements[1];
 	let initText = elements[2];
+	const product = {
+		x: 0,
+		y: 0,
+		width: ref?.current?.width(),
+		height: ref.current?.height(),
+		src: '/products/mug.png',
+		listening: false
+	}
 
 	const [rect, setRect] = React.useState(initRect);
 	const [image, setImage] = React.useState(initImg);
@@ -28,6 +38,7 @@ export default function Canvas({ width, height }) {
 
 	return (
 		<Stage
+			ref={ref}
 			onMouseDown={checkDeselect}
 			onTouchStart={checkDeselect}
 			className='site-stage'
@@ -35,7 +46,9 @@ export default function Canvas({ width, height }) {
 			height={height}
 		>
 			<Layer>
+				<Image imageProps={product} />
 				<Text
+					stage={ref?.current}
 					textProps={text}
 					isSelected={text.id === selectedId}
 					onSelect={() => {
@@ -60,7 +73,6 @@ export default function Canvas({ width, height }) {
 
 				<Image
 					imageProps={image}
-					src='https://konvajs.org/assets/lion.png'
 					isSelected={image.id === selectedId}
 					onSelect={() => {
 						selectShape(image.id);
@@ -72,4 +84,6 @@ export default function Canvas({ width, height }) {
 			</Layer>
 		</Stage>
 	);
-}
+})
+
+export default Canvas

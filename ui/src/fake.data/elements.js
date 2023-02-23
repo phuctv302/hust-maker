@@ -12,6 +12,7 @@ const elements = [
 	{
 		id: 'image_1',
 		metatype: 'image',
+		src: 'https://konvajs.org/assets/lion.png',
 		x: 200,
 		y: 100,
 		width: 100,
