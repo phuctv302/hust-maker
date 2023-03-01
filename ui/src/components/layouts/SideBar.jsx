@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout } from 'antd';
 
-import VerticalTabs from '../VerticalTabs';
 
 const { Sider } = Layout;
 
@@ -19,7 +18,7 @@ export default function SideBar(props) {
 				bottom: 0,
 			}}
 		>
-			<VerticalTabs />
+			{props.children}
 		</Sider>
 	);
 }

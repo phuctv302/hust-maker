@@ -8,12 +8,9 @@ import Text from './HmText';
 
 import './Canvas.css';
 
-import elements from '../../fake.data/elements';
 
-const Canvas = React.forwardRef(({ width, height }, ref) => {
-	let initRect = elements[0];
-	let initImg = elements[1];
-	let initText = elements[2];
+const Canvas = React.forwardRef(({ width, height, elements }, ref) => {
+	console.log(elements);
 	const product = {
 		x: 0,
 		y: 0,
@@ -23,9 +20,6 @@ const Canvas = React.forwardRef(({ width, height }, ref) => {
 		listening: false
 	}
 
-	const [rect, setRect] = React.useState(initRect);
-	const [image, setImage] = React.useState(initImg);
-	const [text, setText] = React.useState(initText);
 	const [selectedId, selectShape] = React.useState(null);
 
 	// deselect when clicked on empty area
@@ -47,40 +41,46 @@ const Canvas = React.forwardRef(({ width, height }, ref) => {
 		>
 			<Layer>
 				<Image imageProps={product} />
-				<Text
-					stage={ref?.current}
-					textProps={text}
-					isSelected={text.id === selectedId}
-					onSelect={() => {
-						selectShape(text.id);
-					}}
-					onChange={(newAttrs) => {
-						setText(newAttrs);
-					}}
-				/>
 
-				<Rectangle
-					key={0}
-					shapeProps={rect}
-					isSelected={rect.id === selectedId}
-					onSelect={() => {
-						selectShape(rect.id);
-					}}
-					onChange={(newAttrs) => {
-						setRect(newAttrs);
-					}}
-				/>
+				{elements.map((el, ind) => {
+					if (el.metatype === 'rectangle'){
+						return <Rectangle 
+									key={ind}
+									shapeProps={el}
+									isSelected={el.id === selectedId}
+									onSelect={() => {
+										selectShape(el.id);
+									}}
+								/>
+					}
 
-				<Image
-					imageProps={image}
-					isSelected={image.id === selectedId}
-					onSelect={() => {
-						selectShape(image.id);
-					}}
-					onChange={(newAttrs) => {
-						setImage(newAttrs);
-					}}
-				/>
+					
+					if (el.metatype === 'image'){
+						return <Image
+									key={ind}
+									imageProps={el}
+									isSelected={el.id === selectedId}
+									onSelect={() => {
+										selectShape(el.id);
+									}}
+								/>
+					}
+
+					
+					if (el.metatype === 'text'){
+						return <Text
+									key={ind}
+									stage={ref?.current}
+									textProps={el}
+									isSelected={el.id === selectedId}
+									onSelect={() => {
+										selectShape(el.id);
+									}}
+								/>
+					}
+
+					return null;
+				})}
 			</Layer>
 		</Stage>
 	);

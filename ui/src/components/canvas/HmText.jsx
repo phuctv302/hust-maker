@@ -7,10 +7,14 @@ export default function HmText({
 	textProps,
 	isSelected,
 	onSelect,
-	onChange,
 }) {
 	const textRef = React.useRef();
 	const trRef = React.useRef();
+
+	const [text, setText] = React.useState(textProps);
+	const handleOnChange = (newAttr) => {
+		setText(newAttr);
+	} 
 
 	React.useEffect(() => {
 		if (isSelected) {
@@ -77,12 +81,12 @@ export default function HmText({
 				onClick={onSelect}
 				onTap={onSelect}
 				ref={textRef}
-				{...textProps}
+				{...text}
 				draggable
 				onDragEnd={(e) => {
 					// only x and y are mutated onDrag
-					onChange({
-						...textProps,
+					handleOnChange({
+						...text,
 						x: e.target.x(),
 						y: e.target.y(),
 					});
@@ -101,8 +105,8 @@ export default function HmText({
 					node.scaleX(1);
 					node.scaleY(1);
 
-					onChange({
-						...textProps,
+					handleOnChange({
+						...text,
 						x: node.x(),
 						y: node.y(),
 

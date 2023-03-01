@@ -9,6 +9,8 @@ import InterestsIcon from '@mui/icons-material/Interests';
 import ImageIcon from '@mui/icons-material/Image';
 import FormatColorTextIcon from '@mui/icons-material/FormatColorText';
 
+import TabContent from './TabContent';
+
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
 
@@ -18,10 +20,11 @@ function TabPanel(props) {
 			hidden={value !== index}
 			id={`vertical-tabpanel-${index}`}
 			{...other}
+			style={{width: '100%'}}
 		>
 			{value === index && (
 				<Box sx={{ p: 3 }}>
-					<Typography>{children}</Typography>
+					<div>{children}</div>
 				</Box>
 			)}
 		</div>
@@ -35,7 +38,7 @@ function a11yProps(index) {
 	};
 }
 
-export default function VerticalTabs(){
+export default function VerticalTabs({setSelectedElement}){
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {
@@ -69,7 +72,7 @@ export default function VerticalTabs(){
 				Item One
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				Item Two
+				<TabContent setSelectedElement={setSelectedElement}/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
 				Item Three

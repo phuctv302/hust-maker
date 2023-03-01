@@ -6,6 +6,11 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
 	const shapeRef = React.useRef();
 	const trRef = React.useRef();
 
+	const [rect, setRect] = React.useState(shapeProps);
+	const handleOnChange = (newAttr) => {
+		setRect(newAttr);
+	} 
+
 	React.useEffect(() => {
 		if (isSelected) {
 			// attach transformer to current node manually
@@ -20,12 +25,12 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
 				onClick={onSelect}
 				onTap={onSelect}
 				ref={shapeRef}
-				{...shapeProps}
+				{...rect}
 				draggable
 				onDragEnd={(e) => {
 					// only x and y are mutated onDrag
-					onChange({
-						...shapeProps,
+					handleOnChange({
+						...rect,
 						x: e.target.x(),
 						y: e.target.y(),
 					});
@@ -44,8 +49,8 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
 					node.scaleX(1);
 					node.scaleY(1);
 
-					onChange({
-						...shapeProps,
+					handleOnChange({
+						...rect,
 						x: node.x(),
 						y: node.y(),
 

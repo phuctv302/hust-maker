@@ -6,6 +6,11 @@ const HmImage = ({ imageProps, isSelected, onSelect, onChange }) => {
 	const imageRef = React.useRef();
 	const trRef = React.useRef();
 
+	const [img, setImg] = React.useState(imageProps);
+	const handleOnChange = (newAttr) => {
+		setImg(newAttr);
+	} 
+
 	React.useEffect(() => {
 		if (isSelected) {
 			// attach transformer to current node manually
@@ -23,14 +28,14 @@ const HmImage = ({ imageProps, isSelected, onSelect, onChange }) => {
 			<Image
 				onClick={onSelect}
 				onTap={onSelect}
-				{...imageProps}
+				{...img}
 				image={image}
 				ref={imageRef}
 				draggable
 				onDragEnd={(e) => {
 					// only x and y are mutated onDrag
-					onChange({
-						...imageProps,
+					handleOnChange({
+						...img,
 						x: e.target.x(),
 						y: e.target.y(),
 					});
@@ -49,8 +54,8 @@ const HmImage = ({ imageProps, isSelected, onSelect, onChange }) => {
 					node.scaleX(1);
 					node.scaleY(1);
 
-					onChange({
-						...imageProps,
+					handleOnChange({
+						...img,
 						x: node.x(),
 						y: node.y(),
 
