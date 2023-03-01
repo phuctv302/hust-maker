@@ -72,13 +72,13 @@ export default function VerticalTabs({setSelectedElement}){
 				Item One
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				<TabContent setSelectedElement={setSelectedElement}/>
+				<TabContent type='rectangle' setSelectedElement={setSelectedElement}/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				Item Three
+				<TabContent type='image' setSelectedElement={setSelectedElement}/>
 			</TabPanel>
 			<TabPanel value={value} index={3}>
-				Item Four
+				<TabContent type='text' setSelectedElement={setSelectedElement}/>
 			</TabPanel>
 		</Box>
 	);

@@ -1,4 +1,7 @@
+.preview-canvas {
+	margin-bottom: 20px;
+}
 .preview-canvas:hover {
 	cursor: pointer;
-	background-color: #3A98B9;
+	background-color: #ECF2FF;
 }

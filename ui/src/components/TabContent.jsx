@@ -7,7 +7,7 @@ import './TabContent.css';
 
 import previews from '../fake.data/previews';
 
-export default function TabContent({setSelectedElement}){
+export default function TabContent({type, setSelectedElement}){
 
 	const [ref, {width, height}] = useMeasure();
 
@@ -15,8 +15,8 @@ export default function TabContent({setSelectedElement}){
 
 	return (
 		<div ref={ref} className='tab-content'>
-			{previews.map((el, ind) => {
-				return <PreviewElement setSelectedElement={setSelectedElement} key={ind} width={width} height={height} previewProps={el} />
+			{previews.filter((el) => el.metatype === type).map((el, ind) => {
+				return <PreviewElement type={type} setSelectedElement={setSelectedElement} key={ind} width={width} height={height} previewProps={el} />
 			})}
 		</div>
 	);
