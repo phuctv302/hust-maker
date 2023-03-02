@@ -15,7 +15,6 @@ import _elements from './fake.data/elements';
 const { Header, Content } = Layout;
 
 export default function App() {
-	console.log('render app');
 	const [ref, { width, height }] = useMeasure();
 	const canvasRef = React.useRef();
 	
@@ -27,11 +26,12 @@ export default function App() {
 	const [selectedElement, setSelectedElement] = React.useState();
 	const [elements, setElements] = React.useState(_elements);
 
-	console.log(selectedElement);
-
 	React.useEffect(() => {
-		if (selectedElement){
+		if (selectedElement && !Array.isArray(selectedElement)){
 			setElements([...elements, selectedElement]);
+		}
+		if (selectedElement && Array.isArray(selectedElement)){
+			setElements([...elements, ...selectedElement]);
 		}
 
 	}, [selectedElement])
