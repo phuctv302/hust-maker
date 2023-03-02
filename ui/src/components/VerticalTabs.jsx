@@ -64,7 +64,7 @@ export default function VerticalTabs({
 				value={value}
 				onChange={handleChange}
 				aria-label='Vertical tabs example'
-				sx={{ borderRight: 1, borderColor: 'divider', width: '100px' }}
+				sx={{ borderRight: 1, borderColor: 'divider', width: '140px' }}
 			>
 				<Tab
 					label='TEMPLATES'

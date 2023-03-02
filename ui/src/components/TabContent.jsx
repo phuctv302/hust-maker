@@ -14,6 +14,7 @@ export default function TabContent({
 	canvasHeight,
 }) {
 	const [ref, { width, height }] = useMeasure();
+	console.log(width);
 
 	// const handleSelectElement
 
