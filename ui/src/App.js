@@ -47,7 +47,7 @@ export default function App() {
 
 			<Layout className='site-layout' style={{ marginLeft: 450 }}>
 				<SideBar className='site-sidebar'>
-					<VerticalTabs setSelectedElement={setSelectedElement} />
+					<VerticalTabs setSelectedElement={setSelectedElement} canvasWidth={width} canvasHeight={height}/>
 				</SideBar>
 
 				<Content

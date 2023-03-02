@@ -1,15 +1,12 @@
 import React from 'react';
 import { v4 as uuid } from 'uuid';
+import { useMeasure } from 'react-use';
 
 import { Stage, Layer, Image, Text, Rect, Group } from 'react-konva';
 
 import './PreviewElement.css';
 
-function getElement(previewProps, ref, setSelectedElement, other) {
-	const handleElementDbClick = (type) => {
-		let element = { ...previewProps, id: `${type}_${uuid().slice(0, 8)}` };
-		setSelectedElement(element);
-	};
+function getElement(previewProps, ref, other) {
 	const { stageRef, ind } = other;
 
 	if (previewProps.metatype === 'image') {
@@ -20,9 +17,6 @@ function getElement(previewProps, ref, setSelectedElement, other) {
 			<Image
 				key={ind}
 				ref={ref}
-				onDblClick={() => {
-					handleElementDbClick('image');
-				}}
 				{...previewProps}
 				image={image}
 				width={stageRef?.current?.width()}
@@ -35,9 +29,6 @@ function getElement(previewProps, ref, setSelectedElement, other) {
 			<Text
 				key={ind}
 				ref={ref}
-				onDblClick={() => {
-					handleElementDbClick('image');
-				}}
 				{...previewProps}
 				align='center'
 				width={stageRef?.current?.width()}
@@ -49,9 +40,6 @@ function getElement(previewProps, ref, setSelectedElement, other) {
 			<Rect
 				key={ind}
 				ref={ref}
-				onDblClick={() => {
-					handleElementDbClick('rectangle');
-				}}
 				{...previewProps}
 				width={stageRef?.current?.width()}
 				height={stageRef?.current?.height()}
@@ -62,17 +50,14 @@ function getElement(previewProps, ref, setSelectedElement, other) {
 	return '';
 }
 
-function getTemplate(elements, setSelectedElement, stageRef) {
-	const handleTemplateDbClick = () => {
-		elements = elements.map((el, ind) => {
-			return { ...el, id: `${el.metatype}_${uuid().slice(0, 8)}` };
-		});
+function getTemplate(elements, stageRef) {
 
-		setSelectedElement(elements);
-	};
+	const stageWidth = stageRef?.current?.width();
+	const stageHeight = stageRef?.current?.height();
+
 
 	return (
-		<Group onDblClick={handleTemplateDbClick}>
+		<Group>
 			{elements.map((el, ind) => {
 				if (el.metatype === 'image') {
 					let image = new window.Image();
@@ -114,28 +99,55 @@ export default function PreviewElement({
 	width,
 	previewProps,
 	setSelectedElement,
+	canvasWidth,
+	canvasHeight
 }) {
 	const stageRef = React.useRef(null);
 	const ref = React.useRef(null);
 
-	let elHtml = getElement(previewProps, ref, setSelectedElement, {
+
+
+	let handlePreviewDbClick = () => {
+		let element = { ...previewProps, id: `${previewProps.metatype}_${uuid().slice(0, 8)}` };
+		setSelectedElement(element);
+	}
+
+	let elHtml = getElement(previewProps, ref, {
 		stageRef,
 	});
 	if (previewProps.metatype === 'template') {
-		const elements = previewProps.elements;
+		let elements = previewProps.elements;
+		let _elements = JSON.parse(JSON.stringify(elements));
 
-		elHtml = getTemplate(elements, setSelectedElement, stageRef);
+		elHtml = getTemplate(_elements, stageRef);
+
+		handlePreviewDbClick = () => {
+			const offsetX = canvasWidth / 2 - 50;
+			const offsetY = canvasHeight / 2 - 50;
+			console.log(offsetX)
+
+			elements = elements.map((el, ind) => {
+				return { ...el,
+							id: `${el.metatype}_${uuid().slice(0, 8)}`,
+							x: el.x + offsetX,
+							y: el.y + offsetY, 
+						};
+			});
+	
+			setSelectedElement(elements);
+		}
 	}
 
 	return (
 		<Stage
+			onDblClick={handlePreviewDbClick}
 			className='preview-canvas'
 			ref={stageRef}
-			width={previewProps.metatype === 'text' ? width : width / 2}
+			width={previewProps.metatype === 'text' ? width : width / 2 - 10}
 			height={
 				previewProps.metatype === 'text'
 					? previewProps.fontSize
-					: width / 2
+					: width / 2 - 10
 			}
 		>
 			<Layer>{elHtml}</Layer>

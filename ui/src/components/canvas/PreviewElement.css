@@ -1,5 +1,7 @@
 .preview-canvas {
+	box-sizing: border-box;
 	margin-bottom: 20px;
+	border: 1px solid #eee;
 }
 .preview-canvas:hover {
 	cursor: pointer;

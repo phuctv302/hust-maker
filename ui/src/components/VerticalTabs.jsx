@@ -20,7 +20,7 @@ function TabPanel(props) {
 			hidden={value !== index}
 			id={`vertical-tabpanel-${index}`}
 			{...other}
-			style={{width: '100%'}}
+			style={{ width: '100%' }}
 		>
 			{value === index && (
 				<Box sx={{ p: 3 }}>
@@ -38,7 +38,11 @@ function a11yProps(index) {
 	};
 }
 
-export default function VerticalTabs({setSelectedElement}){
+export default function VerticalTabs({
+	setSelectedElement,
+	canvasWidth,
+	canvasHeight,
+}) {
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event, newValue) => {
@@ -51,7 +55,7 @@ export default function VerticalTabs({setSelectedElement}){
 				flexGrow: 1,
 				bgcolor: 'background.paper',
 				display: 'flex',
-				height: 'inherit'
+				height: 'inherit',
 			}}
 		>
 			<Tabs
@@ -62,23 +66,49 @@ export default function VerticalTabs({setSelectedElement}){
 				aria-label='Vertical tabs example'
 				sx={{ borderRight: 1, borderColor: 'divider', width: '100px' }}
 			>
-				<Tab label='TEMPLATES' {...a11yProps(0)} icon={<ViewListIcon />}/>
-				<Tab label='ELEMENTS' {...a11yProps(1)} icon={<InterestsIcon />}/>
+				<Tab
+					label='TEMPLATES'
+					{...a11yProps(0)}
+					icon={<ViewListIcon />}
+				/>
+				<Tab
+					label='ELEMENTS'
+					{...a11yProps(1)}
+					icon={<InterestsIcon />}
+				/>
 				<Tab label='IMAGES' {...a11yProps(2)} icon={<ImageIcon />} />
-				<Tab label='TEXT' {...a11yProps(3)} icon={<FormatColorTextIcon />} />
+				<Tab
+					label='TEXT'
+					{...a11yProps(3)}
+					icon={<FormatColorTextIcon />}
+				/>
 			</Tabs>
 
 			<TabPanel value={value} index={0}>
-				<TabContent type='template' setSelectedElement={setSelectedElement}/>
+				<TabContent
+					type='template'
+					setSelectedElement={setSelectedElement}
+					canvasWidth={canvasWidth}
+					canvasHeight={canvasHeight}
+				/>
 			</TabPanel>
 			<TabPanel value={value} index={1}>
-				<TabContent type='rectangle' setSelectedElement={setSelectedElement}/>
+				<TabContent
+					type='rectangle'
+					setSelectedElement={setSelectedElement}
+				/>
 			</TabPanel>
 			<TabPanel value={value} index={2}>
-				<TabContent type='image' setSelectedElement={setSelectedElement}/>
+				<TabContent
+					type='image'
+					setSelectedElement={setSelectedElement}
+				/>
 			</TabPanel>
 			<TabPanel value={value} index={3}>
-				<TabContent type='text' setSelectedElement={setSelectedElement}/>
+				<TabContent
+					type='text'
+					setSelectedElement={setSelectedElement}
+				/>
 			</TabPanel>
 		</Box>
 	);
