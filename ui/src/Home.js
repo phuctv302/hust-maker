@@ -1,11 +1,12 @@
 import React from 'react';
 import { useMeasure } from 'react-use';
 import { Layout } from 'antd';
-import ShapeLineIcon from '@mui/icons-material/ShapeLine';
+import { Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import ShapeLineIcon from '@mui/icons-material/ShapeLine'; // app logo
 import CloudDoneIcon from '@mui/icons-material/CloudDone';
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
-import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
 import SideBar from './components/layouts/SideBar';
@@ -77,6 +78,7 @@ export default function Home() {
 				</div>
 				<div className='header-section right'>
 					<FormDialog stripePromise={stripePromise} canvasRef={canvasRef} />
+					<Avatar size='default' icon={<UserOutlined />} style={{backgroundColor: '#ccc'}} />
 				</div>
 			</Header>
 

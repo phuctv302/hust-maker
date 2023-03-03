@@ -1,0 +1,53 @@
+.order-card:not(:last-child) {
+	margin-bottom: 20px;
+}
+
+.order-card > .ant-card-body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	column-gap: 20px;
+}
+
+.order-card .product-img {
+	width: 30%;
+}
+
+.order-card .product-img > img {
+	object-fit: cover;
+	width: 100%;
+}
+
+.order-card .content {
+	display: flex;
+	flex-grow: 1;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: start;
+}
+
+.order-card .content .user {
+	margin-bottom: 15px;
+}
+
+.order-card .content .user > div {
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+}
+
+.order-card .content .user .fullname {
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+.order-card .content .more {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.order-card .content .more .price {
+	font-weight: 500;
+}
