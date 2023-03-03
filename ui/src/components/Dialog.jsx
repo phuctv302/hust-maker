@@ -23,13 +23,11 @@ export default function FormDialog({stripePromise, canvasRef}) {
 
 	// to get input value
 	const nameRef = React.useRef('');
-	const emailRef = React.useRef('');
 	const addressRef = React.useRef('');
 	const contactRef = React.useRef('');
 
 	const handleContinue = async () => {
 		console.log(nameRef.current.value)
-		console.log(emailRef.current.value)
 		console.log(addressRef.current.value)
 		console.log(contactRef.current.value);
 		const stripe = await stripePromise;
@@ -64,15 +62,6 @@ export default function FormDialog({stripePromise, canvasRef}) {
 						fullWidth
 						variant='standard'
 						inputRef={nameRef}
-					/>
-					<TextField
-						margin='dense'
-						id='email'
-						label='Email Address'
-						type='email'
-						fullWidth
-						variant='standard'
-						inputRef={emailRef}
 					/>
 					<TextField
 						required

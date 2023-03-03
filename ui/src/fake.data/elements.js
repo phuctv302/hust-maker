@@ -26,6 +26,8 @@ const elements = [
 	// 	text: 'This is text on canvas',
 	// 	x: 200,
 	// 	y: 100,
+	// 	width: 'nana',
+	// 	height: 'auto'
 	// }
 ]
 

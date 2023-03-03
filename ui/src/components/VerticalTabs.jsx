@@ -72,7 +72,7 @@ export default function VerticalTabs({
 					icon={<ViewListIcon />}
 				/>
 				<Tab
-					label='ELEMENTS'
+					label='SHAPES'
 					{...a11yProps(1)}
 					icon={<InterestsIcon />}
 				/>

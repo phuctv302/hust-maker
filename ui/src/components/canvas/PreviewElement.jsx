@@ -109,8 +109,8 @@ export default function PreviewElement({
 					id: `${el.metatype}_${uuid().slice(0, 8)}`,
 					x: el.x * 2 + offsetX,
 					y: el.y * 2 + offsetY,
-					width: el.width * 2,
-					height: el.height * 2,
+					width: el.metatype === 'text' ? 'auto' : el.width * 2,
+					height: el.metatype === 'text' ? 'auto' : el.height * 2,
 				};
 			});
 

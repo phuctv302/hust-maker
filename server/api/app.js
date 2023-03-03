@@ -14,7 +14,7 @@ router.get('/checkout-session/:designId', async (req, res, next) => {
 	// create checkout session
 	const session = await stripe.checkout.sessions.create({
 		payment_method_types: ['card'],
-		success_url: `${req.protocol}://${req.get('host')}/`,
+		success_url: `${req.protocol}://127.0.0.1:3000/`,
 		cancel_url: `${req.protocol}://${req.get('host')}/`,
 		customer_email: 'phuctanki323232@gmail.com',
 		client_reference_id: req.params.designId,
@@ -38,6 +38,10 @@ router.get('/checkout-session/:designId', async (req, res, next) => {
 });
 
 app.use('/api/v1/', router);
+
+app.use('/', (req, res) => {
+	res.send('Welcome to Hust Maker');
+});
 
 app.listen(4354, () => {
 	console.log('App is listening on port 4354');
