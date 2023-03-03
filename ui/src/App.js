@@ -1,7 +1,12 @@
 import React from 'react';
 import { useMeasure } from 'react-use';
 import { Layout } from 'antd';
-import { v4 as uuid } from 'uuid';
+import ShapeLineIcon from '@mui/icons-material/ShapeLine';
+import CloudDoneIcon from '@mui/icons-material/CloudDone';
+import UndoIcon from '@mui/icons-material/Undo';
+import RedoIcon from '@mui/icons-material/Redo';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 import SideBar from './components/layouts/SideBar';
 import Canvas from './components/canvas/Canvas';
@@ -14,40 +19,74 @@ import _elements from './fake.data/elements';
 
 const { Header, Content } = Layout;
 
+// for undo, redo
+
+// payment with stripe
+const stripePromise = loadStripe(
+	'pk_test_51JwyYkJ8FJNSI7ayLW0i2AeN1MCFPWcbnAmGrlYD4pXcAxNQhCv8cMoipLit6h6WWV4k9yImZmq9NyPqSEONLSXa00VUPxOQ2B'
+);
+
 export default function App() {
 	const [ref, { width, height }] = useMeasure();
 	const canvasRef = React.useRef();
-	
-	const onSave = () => {
-		const data = canvasRef?.current?.toDataURL();
-		console.log(data); // link of canvas image
-	};
-	
+
 	const [selectedElement, setSelectedElement] = React.useState();
 	const [elements, setElements] = React.useState(_elements);
 
 	React.useEffect(() => {
-		if (selectedElement && !Array.isArray(selectedElement)){
+		if (selectedElement && !Array.isArray(selectedElement)) {
 			setElements([...elements, selectedElement]);
 		}
-		if (selectedElement && Array.isArray(selectedElement)){
+		if (selectedElement && Array.isArray(selectedElement)) {
 			setElements([...elements, ...selectedElement]);
 		}
-
-	}, [selectedElement])
+	}, [selectedElement]);
 
 	return (
 		<Layout>
 			<Header
-				style={{ padding: 0, minHeight: '50px', maxHeight: '50px' }}
+				className='site-header'
+				style={{ minHeight: '50px', maxHeight: '50px' }}
 			>
-				<FormDialog />
-				<button onClick={onSave}>Save</button>
+				<div
+					className='header-section left'
+					style={{ height: 'inherit' }}
+				>
+					<ShapeLineIcon
+						color='primary'
+						fontSize='large'
+						className='logo'
+					/>
+					<div
+						className='header-section'
+						style={{ columnGap: '10px' }}
+					>
+						<UndoIcon
+							className='header-button'
+							style={{ color: '#fff' }}
+						/>
+						<RedoIcon
+							className='header-button'
+							style={{ color: '#fff' }}
+						/>
+					</div>
+					<CloudDoneIcon style={{ color: '#fff' }} />
+				</div>
+				<div style={{ color: '#fff' }}>
+					&#123;&#123;Project name&#125;&#125;
+				</div>
+				<div className='header-section right'>
+					<FormDialog stripePromise={stripePromise} canvasRef={canvasRef} />
+				</div>
 			</Header>
 
 			<Layout className='site-layout' style={{ marginLeft: 450 }}>
 				<SideBar className='site-sidebar'>
-					<VerticalTabs setSelectedElement={setSelectedElement} canvasWidth={width} canvasHeight={height}/>
+					<VerticalTabs
+						setSelectedElement={setSelectedElement}
+						canvasWidth={width}
+						canvasHeight={height}
+					/>
 				</SideBar>
 
 				<Content

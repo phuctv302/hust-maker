@@ -6,10 +6,11 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
 
-import image from '../fake.data/image';
+import axios from 'axios';
 
-export default function FormDialog() {
+export default function FormDialog({stripePromise, canvasRef}) {
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -26,24 +27,30 @@ export default function FormDialog() {
 	const addressRef = React.useRef('');
 	const contactRef = React.useRef('');
 
-	const handleContinue = () => {
+	const handleContinue = async () => {
 		console.log(nameRef.current.value)
 		console.log(emailRef.current.value)
 		console.log(addressRef.current.value)
-		console.log(contactRef.current.value)
+		console.log(contactRef.current.value);
+		const stripe = await stripePromise;
+
+		const session = await axios(`http://127.0.0.1:4354/api/v1/checkout-session/1`);
+		await stripe.redirectToCheckout({
+			sessionId: session.data.session.id
+		});
 
 		setOpen(false)
 	}
 
 	return (
 		<div>
-			<Button variant='outlined' onClick={handleClickOpen}>
+			<Button size='small' startIcon={<LocalMallIcon />} variant='contained' onClick={handleClickOpen}>
 				Print product
 			</Button>
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle>Shipping details</DialogTitle>
 				<DialogContent>
-					<img src={image} style={{width: '50%'}} alt='product preview' />
+					<img src={canvasRef?.current?.toDataURL()} style={{width: '50%'}} alt='product preview' />
 					<DialogContentText>
 						Please enter exact your information so that we can deliver product quickly to you.
 					</DialogContentText>
