@@ -11,7 +11,12 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 
 const AppError = require('./utils/app.error');
-const globalErrorHandler = require('./controller/error.controller');
+const globalErrorHandler = require('./controllers/error.controller');
+
+const userRouter = require('./routes/user.routes');
+const designRouter = require('./routes/design.routes');
+const productRouter = require('./routes/product.routes');
+const orderRouter = require('./routes/order.routes');
 
 const app = express();
 
@@ -39,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Prevent too many requests from 1 IP in 1 hour
 const limiter = rateLimit({
-    max: 100,
+    max: 10000,
     windowMs: 60 * 60 * 24,
     message: 'Too many requests from this IP, please try again in 1 hour!',
 });
@@ -72,6 +77,10 @@ app.use(compression());
  *
  */
 // TODO: Define all routes
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/designs', designRouter);
+app.use('/api/v1/products', productRouter);
+app.use('/api/v1/orders', orderRouter);
 
 /**
  * HANDLE ERRORS

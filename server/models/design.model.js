@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const defaultPreviews = require('../data/default.previews');
+
 const designSchema = new mongoose.Schema(
 	{
 		name: {
@@ -8,7 +10,14 @@ const designSchema = new mongoose.Schema(
 			trim: true,
 		},
 		product: Object,
-		elements: Array,
+		elements: {
+			type: Array,
+			default: []
+		},
+		previews: {
+			type: Array,
+			default: []
+		},
 		imageExport: String,
 
 		createdAt: {
@@ -25,6 +34,15 @@ const designSchema = new mongoose.Schema(
 		toObject: { virtuals: true },
 	}
 );
+
+designSchema.pre('save', function(next){
+	if (!this.isNew){
+		return next();
+	}
+
+	this.previews = defaultPreviews;
+	next();
+});
 
 const Design = mongoose.model('Design', designSchema);
 module.exports = Design;

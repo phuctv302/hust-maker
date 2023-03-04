@@ -11,6 +11,11 @@ const productSchema = new mongoose.Schema(
 			type: Number,
 			required: true
 		},
+		attributes: {
+			type: Object,
+			default: {}
+		},
+		image: String,
 
 		createdAt: {
 			type: Date,

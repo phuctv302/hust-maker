@@ -9,7 +9,6 @@ import Text from './HmText';
 import './Canvas.css';
 
 const Canvas = React.forwardRef(({ width, height, elements }, ref) => {
-	console.log(elements);
 	const product = {
 		x: 0,
 		y: 0,
